@@ -7,7 +7,7 @@ using UnityEngine;
 // optional: if you have extra time, complete the "extra tasks" to do at the very bottom
 
 // STEP 1: ======================================================================================
-// put this script on a Sphere... it will move around, and drop a path of floor tiles behind it
+// put this script on a Sphere... it will move around, and drop a path of floor tiles behind it (not immediately though)
 
 public class Pathmaker : MonoBehaviour {
 
@@ -16,24 +16,45 @@ public class Pathmaker : MonoBehaviour {
 
 //	DECLARE CLASS MEMBER VARIABLES:
 //	Declare a private integer called counter that starts at 0; 		// counter var will track how many floor tiles I've instantiated
+int counter = 0; 
 //	Declare a public Transform called floorPrefab, assign the prefab in inspector;
+public Transform floorPrefab; 
+
 //	Declare a public Transform called pathmakerSpherePrefab, assign the prefab in inspector; 		// you'll have to make a "pathmakerSphere" prefab later
+public Transform pathmakerSpherePrefab; 
 
 
 	void Update () {
 //		If counter is less than 50, then:
-//			Generate a random number from 0.0f to 1.0f;
-//			If random number is less than 0.25f, then rotate myself 90 degrees;
-//				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
-//				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
-//			// end elseIf
+		if(counter < 50)
+		{
+			int rndNumber = Random.Range(0.0f, 1.0f);
 
-//			Instantiate a floorPrefab clone at current position;
-//			Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
-//			Increment counter;
-//		Else:
-//			Destroy my game object; 		// self destruct if I've made enough tiles already
-	}
+
+	// Generate a random number from 0.0f to 1.0f;
+	//			If random number is less than 0.25f, then 
+	//				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
+	//				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
+	//				 end elseIf
+
+			if(rndNumber < .25f){
+				//rotate myself 90 degrees;
+			}else if(rndNumber >= .25f && rndNumber <= 0.5f){
+				//then rotate myself -90 degrees;
+			}else if(rndNumber >= 0.99f && <= 1.0f){
+				//instantiate a pathmakerSpherePrefab clone at my current position;
+			}
+
+			//Instantiate a floorPrefab clone at current position;
+			//Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
+			
+			//Increment counter; DONE
+			counter++; 
+				
+		}else{
+			//Else:
+			//Destory(gameObject); 		// self destruct if I've made enough tiles already
+	}	
 
 } // end of class scope
 
