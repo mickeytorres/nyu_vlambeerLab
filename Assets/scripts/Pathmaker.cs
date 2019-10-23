@@ -28,7 +28,7 @@ public Transform pathmakerSpherePrefab;
 //		If counter is less than 50, then:
 		if(counter < 50)
 		{
-			int rndNumber = Random.Range(0.0f, 1.0f);
+			float rndNumber = Random.Range(0.0f, 1.0f);
 
 
 	// Generate a random number from 0.0f to 1.0f;
@@ -39,21 +39,31 @@ public Transform pathmakerSpherePrefab;
 
 			if(rndNumber < .25f){
 				//rotate myself 90 degrees;
-			}else if(rndNumber >= .25f && rndNumber <= 0.5f){
+				transform.Rotate(0f, 90f, 0f); 
+				Debug.Log("Rotate 90 degrees"); 
+			}else if(rndNumber > 0.24f && rndNumber < 0.51f){
 				//then rotate myself -90 degrees;
-			}else if(rndNumber >= 0.99f && <= 1.0f){
+				transform.Rotate(0f, -90f, 0f); 
+				Debug.Log("Rotate -90 degrees"); 
+			}else if(rndNumber > 0.98f && rndNumber < 1.01f){
 				//instantiate a pathmakerSpherePrefab clone at my current position;
+				Instantiate(pathmakerSpherePrefab);
+				Debug.Log("Instantiate Sphere Prefab");  
 			}
 
 			//Instantiate a floorPrefab clone at current position;
+			Instantiate(floorPrefab); 
+
 			//Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
+			transform.forward * 5f; 
 			
 			//Increment counter; DONE
 			counter++; 
 				
 		}else{
-			//Else:
-			//Destory(gameObject); 		// self destruct if I've made enough tiles already
+			Destroy(gameObject);  		// self destruct if I've made enough tiles already
+		}
+			
 	}	
 
 } // end of class scope
