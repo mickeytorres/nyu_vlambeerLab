@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/scenes/Sick Level.unity
+    guid: dd862b01b0f934dff9578a7f822c4c76
+  m_configObjects: {}

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI; 
 using UnityEngine;
 
 // MAZE PROC GEN LAB
@@ -16,17 +18,45 @@ public class Pathmaker : MonoBehaviour {
 
 //	DECLARE CLASS MEMBER VARIABLES:
 //	Declare a private integer called counter that starts at 0; 		// counter var will track how many floor tiles I've instantiated
-int counter = 0; 
+int counter; 
+int counterLimit = 0; 
+int globalLimit = 0; 
 //	Declare a public Transform called floorPrefab, assign the prefab in inspector;
-public Transform floorPrefab; 
+public Transform[] floorPrefab; 
 
 //	Declare a public Transform called pathmakerSpherePrefab, assign the prefab in inspector; 		// you'll have to make a "pathmakerSphere" prefab later
 public Transform pathmakerSpherePrefab; 
 
+int globalTileCount = 0; 
+
+	void Start(){
+
+		counterLimit = Random.Range(20, 100); 
+		Debug.Log("Counter Limit: " + counterLimit); 
+		globalLimit = Random.Range(300, 500);
+		Debug.Log("Global Limit: " + globalLimit); 
+		counter = 0; 
+		// int globalLimt = Random.Range(300, 500); 
+		// Debug.Log("Counter Limit: " + counterLimit); 
+		// Debug.Log("Global Limit: " + globalLimit); 
+
+		
+		
+
+	}
+
 
 	void Update () {
+
+		Restart(); 
+
+		if(globalTileCount > globalLimit){ //makes sure this ends when there are an x amount of tiles. 
+			Destroy(gameObject);
+			Restart(); 
+		}
+
 //		If counter is less than 50, then:
-		if(counter < 50)
+		if(counter < counterLimit)
 		{
 			float rndNumber = Random.Range(0.0f, 1.0f);
 
@@ -41,29 +71,39 @@ public Transform pathmakerSpherePrefab;
 				//rotate myself 90 degrees;
 				transform.Rotate(0f, 90f, 0f); 
 				Debug.Log("Rotate 90 degrees"); 
-			}else if(rndNumber > 0.24f && rndNumber < 0.51f){
+			}else if(rndNumber >= 0.25f && rndNumber <= 0.50f){
 				//then rotate myself -90 degrees;
 				transform.Rotate(0f, -90f, 0f); 
 				Debug.Log("Rotate -90 degrees"); 
-			}else if(rndNumber > 0.98f && rndNumber < 1.01f){
+			}else if(rndNumber >= 0.99f && rndNumber <= 1.00f){
 				//instantiate a pathmakerSpherePrefab clone at my current position;
-				Instantiate(pathmakerSpherePrefab);
+				Instantiate(pathmakerSpherePrefab, transform.position, Quaternion.Euler(0,0,0));
 				Debug.Log("Instantiate Sphere Prefab");  
 			}
 
 			//Instantiate a floorPrefab clone at current position;
-			Instantiate(floorPrefab); 
+			int randomTile = Random.Range(0, floorPrefab.Length); 
+			Instantiate(floorPrefab[randomTile], transform.position, Quaternion.Euler(0, 0, 0)); 
 
 			//Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
-			transform.forward * 5f; 
+			transform.Translate(0f, 0f, 5f); 
 			
 			//Increment counter; DONE
 			counter++; 
+			globalTileCount++; 
+			Debug.Log(counter); 		
 				
 		}else{
-			Destroy(gameObject);  		// self destruct if I've made enough tiles already
+			Destroy(gameObject);  
+			Restart(); 		// self destruct if I've made enough tiles already
 		}
 			
+	}
+
+	void Restart(){
+		if(Input.GetKey(KeyCode.R)){
+			SceneManager.LoadScene("Sick Level"); //this only works if you do it before it finishes loading, idk why exactly? 
+		}
 	}	
 
 } // end of class scope
